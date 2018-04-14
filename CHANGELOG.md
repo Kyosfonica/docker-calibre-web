@@ -1,3 +1,55 @@
+**2017-11-04 - v1.1.10**
+
+ * added support for a configuration directory (as asked in ticket #13), 
+   where the configuration related files like `app.db` and `gdrive.db` will be stored;
+   be aware that `metadata.db` will be still stored at the books directory which is required by the original Calibre application
+ * new options `-v <your Calibre Web config folder>:/calibre-web/config` and `-e USE_CONFIG_DIR=true` to setup the configuration directory
+
+**2017-10-30 - v1.1.9**
+
+ * new base image [technosoft2000/alpine-base:3.6-3](https://hub.docker.com/r/technosoft2000/alpine-base/)
+ * supports also __root__ as user and group via __PGID__ and __PUID__ value 0 correct
+
+```
+[INFO] Docker image version: 1.1.9
+[INFO] Alpine Linux version: 3.6.2
+[WARNING] A group with id 0 exists already [in use by root] and will be modified.
+[WARNING] The group root will be renamed to calibre
+[WARNING] A user with id 0 exists already [in use by root].
+[WARNING] Create user calibre with temporary user id 999.
+[WARNING] Assign non-unique user id 0 to created user calibre
+...
+```
+
+**2017-09-10 - v1.1.8**
+
+ * added additional check to proof if the `vendor` directory is available and create it if needed;
+   this bugfix is needed because the default `vendor` directory was removed from the [janeczku/calibre-web](https://github.com/janeczku/calibre-web) sources - see https://github.com/janeczku/calibre-web/commit/b494b6b62af5aaa79d22b3cb80afc5420b6de621
+ * due the above bugfix the `kindlegen` symlink works again and is usable at __Calibre Web__
+
+**2017-08-19 - v1.1.7**
+
+ * added python library `unidecode` to required dependencys - see also at [janeczku/calibre-web](https://github.com/janeczku/calibre-web) 
+   issue [Transliteration of folders and filenames](https://github.com/janeczku/calibre-web/issues/257)
+ * added initial Calibre `metadata.db` and `metadata_db_prefs_backup.json` 
+   to support the case that the container can be started without an already existing Calibre library - see also at issue #8 __metadata.db__
+
+**2017-07-29 - v1.1.6**
+
+ * fixed issue with ImageMagick and Wand - the error 'You probably had not installed ImageMagick library.' was shown at `calibre-web.log`;
+   Alpine 3.6 delivers already ImageMagick 7 which isn't supported by Wand yet, due this ImageMagick 6 has to be compiled from source.
+   See also at https://github.com/dahlia/wand/issues/287
+ * loading of book metadata works now too because of the ImageMagick fix
+ * updated README.MD with information how to detect image version and how to monitor `calibre-web.log`
+
+**2017-07-29 - v1.1.5**
+
+ * fixed issue #9 - [BUG] In version 1.1.4 /books folder doesn't have write access
+ * enhanced user permisson check to use UID in addition to username; 
+   successfully tested with /books permissons 770, 755, 700 
+ * added additional output at permission checks
+ * enhanced check of symlinks like app.db, gdrive.db, ...
+
 **2017-07-23 - v1.1.4**
 
  * fixed issue #5 - Unable to create /tmp/Mobi
